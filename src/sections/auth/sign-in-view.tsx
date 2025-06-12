@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -18,7 +19,37 @@ import { Iconify } from 'src/components/iconify';
 export function SignInView() {
   const router = useRouter();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+
+  const login = async () => {
+    // const user = {"user": {email, password}};
+
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      /*const raw = JSON.stringify({});*/
+
+      // const requestOptions = {
+      //   method: "POST",
+      //   headers: myHeaders,
+      //   body: raw,
+      //   redirect: "follow"
+      // };
+
+      const response: any = await axios.post("http://localhost:3000/users/login", {user: {email, password}})
+      const user = response.data.user;
+      console.log(user);
+      localStorage.setItem("user", user.email);
+      localStorage.setItem("token", user.token);
+      handleSignIn();
+    } catch (err) {
+      alert('Authentication error');
+    }
+  }
 
   const handleSignIn = useCallback(() => {
     router.push('/');
@@ -37,6 +68,7 @@ export function SignInView() {
         name="email"
         label="Email address"
         defaultValue="hello@gmail.com"
+        onChange={(e) => setEmail(e.target.value)}
         sx={{ mb: 3 }}
         slotProps={{
           inputLabel: { shrink: true },
@@ -51,8 +83,9 @@ export function SignInView() {
         fullWidth
         name="password"
         label="Password"
-        defaultValue="@demo1234"
+        defaultValue=""
         type={showPassword ? 'text' : 'password'}
+        onChange={(e) => setPassword(e.target.value)}
         slotProps={{
           inputLabel: { shrink: true },
           input: {
@@ -74,7 +107,7 @@ export function SignInView() {
         type="submit"
         color="inherit"
         variant="contained"
-        onClick={handleSignIn}
+        onClick={login}
       >
         Sign in
       </Button>
@@ -93,44 +126,44 @@ export function SignInView() {
         }}
       >
         <Typography variant="h5">Sign in</Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            color: 'text.secondary',
-          }}
-        >
-          Don’t have an account?
-          <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-            Get started
-          </Link>
-        </Typography>
+        {/*<Typography*/}
+        {/*  variant="body2"*/}
+        {/*  sx={{*/}
+        {/*    color: 'text.secondary',*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  Don’t have an account?*/}
+        {/*  <Link variant="subtitle2" sx={{ ml: 0.5 }}>*/}
+        {/*    Get started*/}
+        {/*  </Link>*/}
+        {/*</Typography>*/}
       </Box>
       {renderForm}
-      <Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}>
-        <Typography
-          variant="overline"
-          sx={{ color: 'text.secondary', fontWeight: 'fontWeightMedium' }}
-        >
-          OR
-        </Typography>
-      </Divider>
-      <Box
-        sx={{
-          gap: 1,
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        {/*<IconButton color="inherit">*/}
-        {/*  <Iconify width={22} icon="socials:google" />*/}
-        {/*</IconButton>*/}
-        {/*<IconButton color="inherit">*/}
-        {/*  <Iconify width={22} icon="socials:github" />*/}
-        {/*</IconButton>*/}
-        {/*<IconButton color="inherit">*/}
-        {/*  <Iconify width={22} icon="socials:twitter" />*/}
-        {/*</IconButton>*/}
-      </Box>
+      {/*<Divider sx={{ my: 3, '&::before, &::after': { borderTopStyle: 'dashed' } }}>*/}
+      {/*  <Typography*/}
+      {/*    variant="overline"*/}
+      {/*    sx={{ color: 'text.secondary', fontWeight: 'fontWeightMedium' }}*/}
+      {/*  >*/}
+      {/*    OR*/}
+      {/*  </Typography>*/}
+      {/*</Divider>*/}
+      {/*<Box*/}
+      {/*  sx={{*/}
+      {/*    gap: 1,*/}
+      {/*    display: 'flex',*/}
+      {/*    justifyContent: 'center',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <IconButton color="inherit">*/}
+      {/*    <Iconify width={22} icon="socials:google" />*/}
+      {/*  </IconButton>*/}
+      {/*  <IconButton color="inherit">*/}
+      {/*    <Iconify width={22} icon="socials:github" />*/}
+      {/*  </IconButton>*/}
+      {/*  <IconButton color="inherit">*/}
+      {/*    <Iconify width={22} icon="socials:twitter" />*/}
+      {/*  </IconButton>*/}
+      {/*</Box>*/}
     </>
   );
 }
