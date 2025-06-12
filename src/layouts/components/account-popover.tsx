@@ -50,6 +50,18 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
     [handleClosePopover, router]
   );
 
+  const getEmail = () => {
+    console.log(localStorage.getItem("user"))
+    return localStorage.getItem("user")
+  }
+
+  const logout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    router.push('/sign-in');
+  }
+
+
   return (
     <>
       <IconButton
@@ -82,12 +94,13 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
         }}
       >
         <Box sx={{ p: 2, pb: 1.5 }}>
-          <Typography variant="subtitle2" noWrap>
-            {_myAccount?.displayName}
-          </Typography>
+          {/*<Typography variant="subtitle2" noWrap>*/}
+          {/*  {_myAccount?.displayName}*/}
+          {/*</Typography>*/}
 
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {_myAccount?.email}
+            {/*{_myAccount?.email}*/}
+            {getEmail()}
           </Typography>
         </Box>
 
@@ -129,7 +142,7 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth color="error" size="medium" variant="text">
+          <Button fullWidth color="error" size="medium" variant="text" onClick={()=>logout()}>
             Logout
           </Button>
         </Box>
