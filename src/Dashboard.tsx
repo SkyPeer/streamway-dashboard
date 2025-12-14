@@ -11,7 +11,6 @@ import Header from './components/Header';
 import MainGrid from './components/MainGrid';
 import SideMenu from './components/SideMenu';
 import AppTheme from './theme/AppTheme';
-import viteLogo from '/vite.svg'
 import {
   chartsCustomizations,
   // dataGridCustomizations,
@@ -34,10 +33,6 @@ export default function Dashboard(props: { disableCustomTheme?: boolean }) {
       <Box sx={{ display: 'flex' }}>
         <SideMenu />
         <AppNavbar />
-          <a href="https://vite.dev" target="_blank">
-              <img src={viteLogo} className="logo" alt="Vite logo" />
-          </a>
-
         {/* Main content */}
         <Box
           component="main"
